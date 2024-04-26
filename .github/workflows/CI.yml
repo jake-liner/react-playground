@@ -11,5 +11,8 @@ jobs:
       - name: Check if branch name is valid
         if: "!contains(github.ref, 'merge-dev')"
         run: |
+          echo ${{ github.ref }}
+          echo ${{ contains(github.ref,'merge-dev') }}
+          echo ${{ !contains(github.ref,'merge-dev') }}
           echo "This branch is not valid to merge develeop"
           exit 1
