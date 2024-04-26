@@ -1,0 +1,13 @@
+name: CI
+
+on:
+  pull_request:
+    branches: ["dev"]
+
+jobs:
+  check_is_valid_branch:
+    if: !contains(github.ref , 'merge-dev')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check if branch is valid
+        run: exit 0
