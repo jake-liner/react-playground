@@ -6,8 +6,10 @@ on:
 
 jobs:
   check_is_valid_branch:
-    if: "!contains(github.ref , 'merge-dev')"
     runs-on: ubuntu-latest
     steps:
-      - name: Check if branch is valid
-        run: exit 0
+      - name: Check if branch name is valid
+        if: "!contains(github.ref, 'merge-dev')"
+        run: |
+          echo "This branch is not valid to merge develeop"
+          exit 1
