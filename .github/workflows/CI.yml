@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check if branch name is valid
-        if: ${{ !contains(github.ref.name,'merge-dev') }}
+        if: ${{ !contains(github.head_ref,'merge-dev') }}
         run: |
           echo github.ref ${{ github.ref }}
           echo github.ref.name ${{ github.ref.name }}
