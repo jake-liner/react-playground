@@ -13,8 +13,8 @@ jobs:
         run: |
           echo github.ref ${{ github.ref }}
           echo github.head_ref ${{ github.head_ref }}
-          echo contains(github.head_ref,'merge-dev') ${{ contains(github.head_ref,'merge-dev') }}
-          echo !contains(github.head_ref,'merge-dev') ${{ !contains(github.head_ref,'merge-dev') }}
+          echo contains github.head_ref,'merge-dev' ${{ contains(github.head_ref,'merge-dev') }}
+          echo !contains github.head_ref,'merge-dev' ${{ !contains(github.head_ref,'merge-dev') }}
           echo github.base_ref ${{ github.base_ref }}
           echo github.workflow_ref ${{ github.workflow_ref }}
           echo "This branch is not valid to merge develeop. Only branches with 'merge-dev' are allowed to merge to develop."
