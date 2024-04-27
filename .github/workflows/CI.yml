@@ -9,11 +9,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check if branch name is valid
-        if: ${{ !contains(github.head_ref,'merge-dev') }}
+        # if: ${{ !contains(github.head_ref,'merge-dev') }}
         run: |
           echo github.ref ${{ github.ref }}
-          echo github.ref.name ${{ github.ref.name }}
           echo github.head_ref ${{ github.head_ref }}
+          echo contains(github.head_ref,'merge-dev') ${{ contains(github.head_ref,'merge-dev') }}
+          echo !contains(github.head_ref,'merge-dev') ${{ !contains(github.head_ref,'merge-dev') }}
           echo github.base_ref ${{ github.base_ref }}
           echo github.workflow_ref ${{ github.workflow_ref }}
           echo "This branch is not valid to merge develeop. Only branches with 'merge-dev' are allowed to merge to develop."
@@ -27,10 +28,13 @@ jobs:
 #   check_is_valid_branch:
 #     runs-on: ubuntu-latest
 #     steps:
-#       - name: Check if branch name is valid
-#         if: ${{ !contains(github.ref,'merge-dev') }}
+#       - name: Check environments
+#         # if: ${{ !contains(github.ref,'merge-dev') }}
 #         run: |
-#           echo ${{ github.ref }}
-#           echo ${{ !contains(github.ref,'merge-dev') }}
+#           echo github.ref ${{ github.ref }}
+#           echo github.ref.name ${{ github.ref.name }}
+#           echo github.g ${{ github.head_ref }}
+#           echo github.base_ref ${{ github.base_ref }}
+#           echo github.workflow_ref ${{ github.workflow_ref }}
 #           echo "This branch is not valid to merge develeop"
 #           exit 1
