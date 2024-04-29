@@ -7,14 +7,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check branch is for merging to develop
-        if: ${{ !contains(github.head_ref,'merge-dev') }}
+        if: ${{ !contains(github.ref,'merge-dev') }}
+        # if: ${{ !contains(github.head_ref,'merge-dev') }}
         run: |
           exit 0
 
       - name: Save branch name
         run: |
-          echo ${{github.head_ref}}
-          echo "BRANCH_NAME=${{github.head_ref}}" >> $GITHUB_ENV
+          echo ${{github.ref}}
+          echo "BRANCH_NAME=${{github.ref}}" >> $GITHUB_ENV
+          # echo ${{github.head_ref}}
+          # echo "BRANCH_NAME=${{github.head_ref}}" >> $GITHUB_ENV
 
       - name: Checkout
         uses: actions/checkout@v3
