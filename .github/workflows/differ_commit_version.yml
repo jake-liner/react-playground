@@ -37,4 +37,4 @@ jobs:
         run: git commit --amend -C HEAD
 
       - name: Overwrite the branch with the new commit
-        run: git switch $BRANCH_NAME && git reset --hard temp/$BRANCH_NAME && git push -f
+        run: git switch $BRANCH_NAME && git reset --soft temp/$BRANCH_NAME && git push -f
