@@ -1,0 +1,27 @@
+name: differ_commit_version
+
+on: push
+
+jobs:
+  check_is_dev_merge_branch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check branch is for merging to develop
+        if: ${{ !contains(github.head_ref,'merge-dev') }}
+        run: |
+          exit 0
+
+      - name: Register author
+        run: git config --global user.email "engineering@linercorp.com" && git config --global user.name "Liner Engineering"
+
+      - name: Pull branch
+        run: git pull
+
+      - name: Create temporary branch
+        run: git switch -C temp/${{github.head_ref}}
+
+      - name: Commit new hash version
+        run: git commit --amend -C HEAD
+
+      - name: Overwrite pushed branch with new commit
+        run: git switch ${{github.head_ref}} && git reset --hard temp/${{github.head_ref}} && git push -f
