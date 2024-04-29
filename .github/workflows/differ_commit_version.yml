@@ -1,0 +1,43 @@
+name: differ_commit_version
+
+on: push
+
+jobs:
+  #   if: ${{ contains(github.ref,'merge-dev') }}
+
+  update_branch_with_new_commit:
+    if: ${{ contains(github.ref,'merge-dev') }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Save branch name
+        run: |
+          echo ${{github.ref}}
+          # echo "BRANCH_NAME=${{github.ref}}" >> $GITHUB_ENV
+          echo "BRANCH_NAME=$(echo ${GITHUB_REF#refs/heads/})" >> $GITHUB_ENV
+
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Register author
+        run: git config --global user.email "engineering@linercorp.com" && git config --global user.name "Liner Engineering"
+
+      - name: Pull all branch
+        run: git pull
+
+      - name: Switch to the pushed branch
+        run: git switch $BRANCH_NAME
+
+      - name: Commit with new hash version
+        run: git commit --amend -C HEAD
+
+      - name: Overwrite the branch with the new commit
+        run: git push -f
+
+      # - name: Create a temporary branch
+      #   run: git switch -C temp/$BRANCH_NAME
+
+      # - name: Commit new hash version
+      #   run: git commit --amend -C HEAD
+
+      # - name: Overwrite the branch with the new commit
+      #   run: git switch $BRANCH_NAME && git reset --soft temp/$BRANCH_NAME && git push -f
