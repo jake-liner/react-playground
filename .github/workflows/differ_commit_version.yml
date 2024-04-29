@@ -12,7 +12,9 @@ jobs:
           exit 0
 
       - name: Save branch name
-        run: echo "BRANCH_NAME=${{github.head_ref}}" >> $GITHUB_ENV
+        run: |
+          echo ${{github.head_ref}}
+          echo "BRANCH_NAME=${{github.head_ref}}" >> $GITHUB_ENV
 
       - name: Checkout
         uses: actions/checkout@v3
