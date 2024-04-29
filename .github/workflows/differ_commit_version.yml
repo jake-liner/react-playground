@@ -1,22 +1,19 @@
 name: differ_commit_version
 
-on: 
-  push:
-    branches:
-      - */*-merge-dev
+on: push
 
 jobs:
-  # check_is_dev_merge_branch:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Check branch is for merging to develop
-  #       if: ${{ !contains(github.ref,'merge-dev') }}
-  #       run: |
-  #         exit 1
-  #       id: check_branch
+  check_is_dev_merge_branch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check branch is for merging to develop
+        if: ${{ contains(github.ref,'merge-dev') }}
+        run: |
+          exit 0
+        id: check_branch
 
   update_branch_with_new_commit:
-    # needs: check_is_dev_merge_branch
+    needs: check_is_dev_merge_branch
     runs-on: ubuntu-latest
     steps:
       - name: Save branch name
