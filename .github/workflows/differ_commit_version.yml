@@ -8,10 +8,14 @@ jobs:
     steps:
       - name: Check branch is for merging to develop
         if: ${{ !contains(github.ref,'merge-dev') }}
-        # if: ${{ !contains(github.head_ref,'merge-dev') }}
         run: |
-          exit 0
+          exit 1
+        id: check_branch
 
+  update_branch_with_new_commit:
+    needs: check_is_dev_merge_branch
+    runs-on: ubuntu-latest
+    steps:
       - name: Save branch name
         run: |
           echo ${{github.ref}}
@@ -27,11 +31,14 @@ jobs:
       - name: Pull branch
         run: git pull
 
-      - name: Create temporary branch
+      - name: Switch to the pushed branch
+        run: git switch $BRANCH_NAME
+
+      - name: Create a temporary branch
         run: git switch -C temp/$BRANCH_NAME
 
       - name: Commit new hash version
         run: git commit --amend -C HEAD
 
-      - name: Overwrite pushed branch with new commit
+      - name: Overwrite the branch with the new commit
         run: git switch $BRANCH_NAME && git reset --hard temp/$BRANCH_NAME && git push -f
