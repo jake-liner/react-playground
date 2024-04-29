@@ -11,6 +11,9 @@ jobs:
         run: |
           exit 0
 
+      - name: Save branch name
+        run: echo "BRANCH_NAME=${{github.head_ref}}" >> $GITHUB_ENV
+
       - name: Checkout
         uses: actions/checkout@v3
 
@@ -21,10 +24,10 @@ jobs:
         run: git pull
 
       - name: Create temporary branch
-        run: git switch -C temp/${{github.head_ref}}
+        run: git switch -C temp/$BRANCH_NAME
 
       - name: Commit new hash version
         run: git commit --amend -C HEAD
 
       - name: Overwrite pushed branch with new commit
-        run: git switch ${{github.head_ref}} && git reset --hard temp/${{github.head_ref}} && git push -f
+        run: git switch $BRANCH_NAME && git reset --hard temp/$BRANCH_NAME && git push -f
