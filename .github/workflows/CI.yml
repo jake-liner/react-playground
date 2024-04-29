@@ -1,7 +1,7 @@
 name: CI
 
 on:
-  pull_request:
+  pull_request_target:
     branches: ["develop"]
 
 jobs:
@@ -18,19 +18,3 @@ jobs:
           echo github.workflow_ref ${{ github.workflow_ref }}
           echo "This branch is not valid to merge develeop. Only branches with 'merge-dev' are allowed to merge to develop."
           exit 1
-
-# name: test
-
-# on: push
-
-# jobs:
-#   check_is_valid_branch:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: Check if branch name is valid
-#         if: ${{ !contains(github.ref,'merge-dev') }}
-#         run: |
-#           echo ${{ github.ref }}
-#           echo ${{ !contains(github.ref,'merge-dev') }}
-#           echo "This branch is not valid to merge develeop"
-#           exit 1
