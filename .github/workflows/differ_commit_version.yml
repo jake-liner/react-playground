@@ -3,17 +3,10 @@ name: differ_commit_version
 on: push
 
 jobs:
-  # check_is_dev_merge_branch:
   #   if: ${{ contains(github.ref,'merge-dev') }}
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Check branch is for merging to develop
-  #       run: |
-  #         exit 0
 
   update_branch_with_new_commit:
     if: ${{ contains(github.ref,'merge-dev') }}
-    # needs: check_is_dev_merge_branch
     runs-on: ubuntu-latest
     steps:
       - name: Save branch name
@@ -28,11 +21,14 @@ jobs:
       - name: Register author
         run: git config --global user.email "engineering@linercorp.com" && git config --global user.name "Liner Engineering"
 
-      - name: Pull branch
+      - name: Pull all branch
         run: git pull
 
       - name: Switch to the pushed branch
         run: git switch $BRANCH_NAME
+
+      - name: Pull all commits
+        run: git pull
 
       - name: Create a temporary branch
         run: git switch -C temp/$BRANCH_NAME
