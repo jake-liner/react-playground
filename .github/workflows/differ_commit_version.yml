@@ -27,14 +27,17 @@ jobs:
       - name: Switch to the pushed branch
         run: git switch $BRANCH_NAME
 
-      - name: Pull all commits
-        run: git pull
-
-      - name: Create a temporary branch
-        run: git switch -C temp/$BRANCH_NAME
-
-      - name: Commit new hash version
+      - name: Commit with new hash version
         run: git commit --amend -C HEAD
 
       - name: Overwrite the branch with the new commit
-        run: git switch $BRANCH_NAME && git reset --soft temp/$BRANCH_NAME && git push -f
+        run: git push -f
+
+      # - name: Create a temporary branch
+      #   run: git switch -C temp/$BRANCH_NAME
+
+      # - name: Commit new hash version
+      #   run: git commit --amend -C HEAD
+
+      # - name: Overwrite the branch with the new commit
+      #   run: git switch $BRANCH_NAME && git reset --soft temp/$BRANCH_NAME && git push -f
