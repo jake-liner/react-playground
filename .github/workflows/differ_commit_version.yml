@@ -3,7 +3,7 @@ name: differ_commit_version
 on: 
   push:
     branches:
-      - */*-merge-dev*
+      - */*-merge-dev
 
 jobs:
   # check_is_dev_merge_branch:
