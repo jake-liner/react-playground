@@ -12,7 +12,7 @@ jobs:
       - name: Check if the branch name is valid for develop merge
         if: ${{ !contains(github.head_ref,'merge-dev') }}
         run: |
-          echo "This branch is not valid to merge develop. Only branches with 'merge-dev' are allowed to merge to 'develop'."
+          echo "Branch ${{ github.head_ref }} is not valid to merge develop. Only branches with 'merge-dev' are allowed to merge to 'develop'."
           exit 1
 
   check_is_label_develop:
