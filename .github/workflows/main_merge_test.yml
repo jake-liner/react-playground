@@ -10,10 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check if branch name is valid
-        if: ${{ github.head_ref == 'release' || !contains(github.head_ref,'/main') || !contains(github.head_ref,'hotfix') }}
+        if: ${{ github.head_ref != 'release' && !contains(github.head_ref,'/main') && !contains(github.head_ref,'hotfix') }}
         run: |
-          echo ${{github.head_ref}}
-          echo ${{contains(github.head_ref,'/main')}}
           echo "This branch is not valid to merge to 'main'. Only 'release' branch or branches with '/main' or 'hotfix' are allowed to merge to 'main'."
           exit 1
 
