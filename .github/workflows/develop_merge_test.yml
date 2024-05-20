@@ -2,7 +2,7 @@ name: develop_merge_test
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened, ready_for_review, labeled]
+    types: [opened, synchronize, reopened, ready_for_review, labeled, unlabeled]
     branches: ["develop"]
 
 jobs:
