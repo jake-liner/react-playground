@@ -12,7 +12,7 @@ jobs:
       - name: Check if branch name is valid
         if: ${{ !contains(github.head_ref,'merge-dev') }}
         run: |
-          echo "This branch is not valid to merge develeop. Only branches with 'merge-dev' are allowed to merge to 'develop'."
+          echo "This branch is not valid to merge develop. Only branches with 'merge-dev' are allowed to merge to 'develop'."
           exit 1
 
   check_is_valid_label:
@@ -21,5 +21,5 @@ jobs:
       - name: Check if label is valid
         if: ${{ !contains(github.event.pull_request.labels.*.name,'develop') }}
         run: |
-          echo "This PR is not valid to merge develeop. Only PR with 'develop' label is allowed to merge to 'develop'."
+          echo "This PR is not valid to merge develop. Only PR with 'develop' label is allowed to merge to 'develop'."
           exit 1
