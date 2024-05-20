@@ -6,19 +6,19 @@ on:
     branches: ["main"]
 
 jobs:
-  check_is_valid_branch:
+  check_is_valid_main_merge_branch:
     runs-on: ubuntu-latest
     steps:
-      - name: Check if branch name is valid
+      - name: Check if the branch name is valid for main merge
         if: ${{ github.head_ref != 'release' && !contains(github.head_ref,'/main') && !contains(github.head_ref,'hotfix') }}
         run: |
           echo "This branch is not valid to merge to 'main'. Only 'release' branch or branches with '/main' or 'hotfix' are allowed to merge to 'main'."
           exit 1
 
-  check_is_valid_label:
+  check_is_label_main:
     runs-on: ubuntu-latest
     steps:
-      - name: Check if label is valid
+      - name: Check if label name is main
         if: ${{ !contains(github.event.pull_request.labels.*.name,'production') }}
         run: |
           echo "This PR is not valid to merge develeop. Only PR with 'production' label is allowed to merge to 'main'."
