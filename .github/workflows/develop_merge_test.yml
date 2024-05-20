@@ -1,0 +1,25 @@
+name: develop_merge_test
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review, labeled]
+    branches: ["develop"]
+
+jobs:
+  check_is_valid_branch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check if branch name is valid
+        if: ${{ !contains(github.head_ref,'merge-dev') }}
+        run: |
+          echo "This branch is not valid to merge develeop. Only branches with 'merge-dev' are allowed to merge to 'develop'."
+          exit 1
+
+  check_is_valid_label:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check if label is valid
+        if: ${{ !contains(github.event.pull_request.labels.*.name,'develop') }}
+        run: |
+          echo "This PR is not valid to merge develeop. Only PR with 'develop' label is allowed to merge to 'develop'."
+          exit 1
