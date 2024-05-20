@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check if the branch name is valid for release merge
-        if: ${{ !contains(github.head_ref,'/main') && !contains(github.head_ref,'hotfix') }}
+        if: ${{ contains(github.head_ref,'merge-dev') || (!contains(github.head_ref,'/main') && !contains(github.head_ref,'hotfix')) }}
         run: |
           echo "This branch is not valid to merge develeop. Only branches with '/main' or 'hotfix' are allowed to merge to 'release'."
           exit 1
