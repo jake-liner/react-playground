@@ -12,7 +12,7 @@ jobs:
       - name: Check if the branch name is valid for release merge
         if: ${{ contains(github.head_ref,'merge-dev') || (!contains(github.head_ref,'/main') && !contains(github.head_ref,'hotfix')) }}
         run: |
-          echo "This branch is not valid to merge develeop. Only branches with '/main' or 'hotfix' are allowed to merge to 'release'."
+          echo "Branch ${{ github.head_ref }} is not valid to merge develeop. Only branches with '/main' or 'hotfix' are allowed to merge to 'release'."
           exit 1
 
   check_is_label_release:
