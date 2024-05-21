@@ -7,7 +7,7 @@ on:
 
 jobs:
   pull_request_to_develop:
-    if: startsWith(github.head_ref, 'refs/heads/develop')
+    if: startsWith(github.ref, 'refs/heads/develop')
     runs-on: ubuntu-latest
     steps:
       - name: Check if the branch name is valid for develop merge
@@ -23,7 +23,7 @@ jobs:
           exit 1
 
   pull_request_to_release:
-    if: startsWith(github.head_ref, 'refs/heads/release')
+    if: startsWith(github.ref, 'refs/heads/release')
     runs-on: ubuntu-latest
     steps:
       - name: Check if the branch name is valid for release merge
@@ -39,7 +39,7 @@ jobs:
           exit 1
 
   pull_request_to_main:
-    if: startsWith(github.head_ref, 'refs/heads/main')
+    if: startsWith(github.ref, 'refs/heads/main')
     runs-on: ubuntu-latest
     steps:
       - name: Check if the branch name is valid for main merge
