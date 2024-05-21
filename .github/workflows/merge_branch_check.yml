@@ -6,15 +6,8 @@ on:
     branches: ["main", "release", "develop"]
 
 jobs:
-  check_ref:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check branch name
-        run: |
-          echo github.ref: ${{ github.ref }}
-
   pull_request_to_develop:
-    if: startsWith(github.ref, 'refs/heads/develop')
+    if: startsWith(github.event.pull_request.base.ref, 'refs/heads/develop')
     runs-on: ubuntu-latest
     steps:
       - name: Check if the branch name is valid for develop merge
@@ -30,7 +23,7 @@ jobs:
           exit 1
 
   pull_request_to_release:
-    if: startsWith(github.ref, 'refs/heads/release')
+    if: startsWith(github.event.pull_request.base.ref, 'refs/heads/release')
     runs-on: ubuntu-latest
     steps:
       - name: Check if the branch name is valid for release merge
@@ -46,7 +39,7 @@ jobs:
           exit 1
 
   pull_request_to_main:
-    if: startsWith(github.ref, 'refs/heads/main')
+    if: startsWith(github.event.pull_request.base.ref, 'refs/heads/main')
     runs-on: ubuntu-latest
     steps:
       - name: Check if the branch name is valid for main merge
