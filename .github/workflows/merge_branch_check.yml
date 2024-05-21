@@ -1,0 +1,55 @@
+name: merge-branch-check
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review, labeled, unlabeled]
+    branches: ["main", "release", "develop"]
+
+jobs:
+  pull_request_to_develop:
+    if: startsWith(github.head_ref, 'refs/heads/develop')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check if the branch name is valid for develop merge
+        if: ${{ !contains(github.head_ref,'merge-dev') }}
+        run: |
+          echo "Branch ${{ github.head_ref }} is not valid to merge develop. Only branches with 'merge-dev' are allowed to merge to 'develop'."
+          exit 1
+
+      - name: Check if label name is develop
+        if: ${{ !contains(github.event.pull_request.labels.*.name,'develop') }}
+        run: |
+          echo "This PR is not valid to merge develop. Only PR with 'develop' label is allowed to merge to 'develop'."
+          exit 1
+
+  pull_request_to_release:
+    if: startsWith(github.head_ref, 'refs/heads/release')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check if the branch name is valid for release merge
+        if: ${{ contains(github.head_ref,'merge-dev') }}
+        run: |
+          echo "Branch ${{ github.head_ref }} is not valid to merge to release. Only branches with '/main' or 'hotfix' are allowed."
+          exit 1
+
+      - name: Check if label name is release
+        if: ${{ !contains(github.event.pull_request.labels.*.name,'release') }}
+        run: |
+          echo "This PR is not valid to merge to release. Only PR with 'release' label is allowed."
+          exit 1
+
+  pull_request_to_main:
+    if: startsWith(github.head_ref, 'refs/heads/main')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check if the branch name is valid for main merge
+        if: ${{ contains(github.head_ref,'merge-dev') || (github.head_ref != 'release' && !contains(github.head_ref,'/main') && !contains(github.head_ref,'hotfix')) }}
+        run: |
+          echo "Branch ${{ github.head_ref }} is not valid to merge to 'main'. Only 'release' branch or branch name with '/main' or 'hotfix' are allowed."
+          exit 1
+
+      - name: Check if label name is main
+        if: ${{ !contains(github.event.pull_request.labels.*.name,'production') }}
+        run: |
+          echo "This PR is not valid to merge to main. Only PR with 'production' label is allowed."
+          exit 1
