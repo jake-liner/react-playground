@@ -6,14 +6,19 @@ on:
     branches: ["main", "release", "develop"]
 
 jobs:
-  check_base_branch:
+  check_target_branch:
     runs-on: ubuntu-latest
+    outputs:
+      branch_name: ${{ steps.check_target_branch_name.outputs.branch_name }}
     steps:
-      - name: Check branch name
-        run: echo ${{github.event.pull_request.base.ref}}
+      - id: check_target_branch_name
+        name: check_target_branch_name
+        run: |
+          echo "branch_name=${{github.event.pull_request.base.ref}}" >> "$GITHUB_OUTPUT"
 
   pull_request_to_develop:
-    if: startsWith(github.event.pull_request.base.ref, 'develop')
+    needs: check_target_branch
+    if: startsWith(needs.check_target_branch.outputs.branch_name, 'develop')
     runs-on: ubuntu-latest
     steps:
       - name: Check if the branch name is valid for develop merge
@@ -29,6 +34,7 @@ jobs:
           exit 1
 
   pull_request_to_release:
+    needs: check_target_branch
     if: startsWith(github.event.pull_request.base.ref, 'release')
     runs-on: ubuntu-latest
     steps:
@@ -45,6 +51,7 @@ jobs:
           exit 1
 
   pull_request_to_main:
+    needs: check_target_branch
     if: startsWith(github.event.pull_request.base.ref, 'main')
     runs-on: ubuntu-latest
     steps:
