@@ -6,6 +6,13 @@ on:
     branches: ["main", "release", "develop"]
 
 jobs:
+  check_ref:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check branch name
+        run: |
+          echo github.ref: ${{ github.ref }}
+
   pull_request_to_develop:
     if: startsWith(github.ref, 'refs/heads/develop')
     runs-on: ubuntu-latest
