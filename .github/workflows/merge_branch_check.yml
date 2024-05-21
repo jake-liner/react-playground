@@ -5,6 +5,7 @@ on:
     types: [opened, synchronize, reopened, ready_for_review, labeled, unlabeled]
     branches: ["main", "release", "develop"]
 
+    #
 jobs:
   check_target_branch:
     runs-on: ubuntu-latest
